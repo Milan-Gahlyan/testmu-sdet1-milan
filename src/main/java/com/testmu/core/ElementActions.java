@@ -29,11 +29,11 @@ public class ElementActions {
         return getElement(locator).isDisplayed();
     }
 
-    protected String getTitle() {
+    public String getTitle() {
         return DriverManager.getDriver().getTitle();
     }
 
-    protected String getCurrentUrl() {
+    public String getCurrentUrl() {
         return DriverManager.getDriver().getCurrentUrl();
     }
 }
