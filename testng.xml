@@ -2,12 +2,14 @@
 
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 
-<suite name="TestMu Suite">
+<suite name="TestMu AI Suite">
 
-    <test name="Automation Tests">
+    <test name="UI Tests">
 
         <packages>
-            <package name="com.testmu.tests"/>
+
+            <package name="com.testmu.tests.ui"/>
+
         </packages>
 
     </test>
