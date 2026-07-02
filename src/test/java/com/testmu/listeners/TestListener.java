@@ -4,6 +4,10 @@ import com.aventstack.extentreports.Status;
 import com.testmu.reports.ExtentManager;
 import com.testmu.reports.ExtentTestManager;
 import com.testmu.utils.ScreenshotUtil;
+import com.testmu.driver.DriverManager;
+import com.testmu.llm.AIAnalysis;
+import com.testmu.llm.GeminiClient;
+import com.testmu.llm.PromptBuilder;
 import org.testng.*;
 
 public class TestListener implements ITestListener {
@@ -63,13 +67,45 @@ public class TestListener implements ITestListener {
                 ScreenshotUtil.capture(
                         result.getMethod().getMethodName());
 
-        ExtentTestManager
+        ExtentTestManager.getTest()
+                .fail(result.getThrowable());
 
-                .getTest()
+        try {
 
-                .fail(result.getThrowable())
+            ExtentTestManager.getTest()
+                    .addScreenCaptureFromPath(screenshot);
 
-                .addScreenCaptureFromPath(screenshot);
+        } catch (Exception e) {
+
+            ExtentTestManager.getTest()
+                    .warning("Unable to attach screenshot.");
+
+        }
+
+        AIAnalysis analysis =
+                GeminiClient.analyze(
+
+                        PromptBuilder.build(
+
+                                result.getMethod().getMethodName(),
+
+                                result.getThrowable(),
+
+                                DriverManager.getDriver() != null
+                                        ? DriverManager.getDriver().getCurrentUrl()
+                                        : "N/A"
+
+                        )
+
+                );
+
+        ExtentTestManager.getTest()
+
+                .info(
+                        "<pre>"
+                                + analysis.getRawResponse()
+                                + "</pre>"
+                );
 
     }
 

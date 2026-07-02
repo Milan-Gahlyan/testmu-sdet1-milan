@@ -33,8 +33,22 @@ public final class ConfigReader {
 
     public static String get(String key) {
 
-        return properties.getProperty(key);
+        String value = properties.getProperty(key);
 
+        if (value != null &&
+                value.startsWith("${") &&
+                value.endsWith("}")) {
+
+            String envKey = value.substring(2, value.length() - 1);
+
+            String envValue = System.getenv(envKey);
+
+            if (envValue != null && !envValue.isBlank()) {
+                return envValue;
+            }
+        }
+
+        return value;
     }
 
 }
