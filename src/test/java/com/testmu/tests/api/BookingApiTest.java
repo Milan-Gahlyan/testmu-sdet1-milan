@@ -1,47 +1,57 @@
 package com.testmu.tests.api;
 
+import com.testmu.api.auth.AuthAPI;
+import com.testmu.api.auth.TokenManager;
 import com.testmu.api.endpoints.BookingAPI;
 import com.testmu.api.model.BookingRequest;
+import com.testmu.api.utils.AuthDataFactory;
 import com.testmu.api.utils.BookingDataFactory;
 import io.restassured.response.Response;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class BookingApiTest {
 
-    @Test(
-            description = "Verify user can create booking successfully"
-    )
+    private BookingAPI bookingAPI;
 
-    public void verifyCreateBooking(){
+    @BeforeClass
+    public void setup() {
 
-        BookingAPI bookingAPI = new BookingAPI();
+        bookingAPI = new BookingAPI();
 
-        BookingRequest booking =
-                BookingDataFactory.createBooking();
+        Response tokenResponse =
+                new AuthAPI().createToken(
+                        AuthDataFactory.validCredentials());
 
-        Response response =
-                bookingAPI.createBooking(booking);
+        TokenManager.setToken(
 
-        Assert.assertEquals(
-                response.statusCode(),
-                200);
+                tokenResponse.jsonPath().getString("token")
+
+        );
 
     }
 
-    @Test(
-            description = "Verify user can retrieve booking successfully"
-    )
+    @Test(description = "Verify user can create booking successfully")
+    public void verifyCreateBooking() {
 
-    public void verifyBookingCanBeRetrieved(){
+        Response response =
 
-        BookingAPI bookingAPI = new BookingAPI();
+                bookingAPI.createBooking(
 
-        BookingRequest booking =
-                BookingDataFactory.createBooking();
+                        BookingDataFactory.createBooking());
+
+        Assert.assertEquals(response.statusCode(), 200);
+
+    }
+
+    @Test(description = "Verify booking can be retrieved")
+    public void verifyBookingCanBeRetrieved() {
 
         Response create =
-                bookingAPI.createBooking(booking);
+
+                bookingAPI.createBooking(
+                        BookingDataFactory.createBooking());
 
         int bookingId =
                 create.jsonPath().getInt("bookingid");
@@ -49,17 +59,56 @@ public class BookingApiTest {
         Response get =
                 bookingAPI.getBooking(bookingId);
 
-        Assert.assertEquals(
-                get.statusCode(),
-                200);
+        Assert.assertEquals(get.statusCode(), 200);
+
+    }
+
+    @Test(description = "Verify booking can be updated")
+    public void verifyBookingCanBeUpdated() {
+
+        Response create =
+                bookingAPI.createBooking(
+                        BookingDataFactory.createBooking());
+
+        int bookingId =
+                create.jsonPath().getInt("bookingid");
+
+        BookingRequest updated =
+                BookingDataFactory.createBooking();
+
+        updated.firstname = "Updated";
+
+        Response update =
+                bookingAPI.updateBooking(
+                        bookingId,
+                        updated);
+
+        Assert.assertEquals(update.statusCode(), 200);
 
         Assert.assertEquals(
 
-                get.jsonPath().getString("firstname"),
+                update.jsonPath().getString("firstname"),
 
-                "Milan"
+                "Updated"
 
         );
+
+    }
+
+    @Test(description = "Verify booking can be deleted")
+    public void verifyBookingCanBeDeleted() {
+
+        Response create =
+                bookingAPI.createBooking(
+                        BookingDataFactory.createBooking());
+
+        int bookingId =
+                create.jsonPath().getInt("bookingid");
+
+        Response delete =
+                bookingAPI.deleteBooking(bookingId);
+
+        Assert.assertEquals(delete.statusCode(), 201);
 
     }
 

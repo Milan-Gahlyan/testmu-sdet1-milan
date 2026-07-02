@@ -39,6 +39,8 @@ public class TestListener implements ITestListener {
 
                         .assignAuthor("Milan Gahlyan")
 
+                        .assignDevice(System.getProperty("browser", "Chrome"))
+
         );
 
     }
