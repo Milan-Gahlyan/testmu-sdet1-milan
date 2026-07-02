@@ -9,7 +9,9 @@ import org.testng.annotations.Test;
 
 public class BookingApiTest {
 
-    @Test
+    @Test(
+            description = "Verify user can create booking successfully"
+    )
 
     public void verifyCreateBooking(){
 
@@ -27,7 +29,9 @@ public class BookingApiTest {
 
     }
 
-    @Test
+    @Test(
+            description = "Verify user can retrieve booking successfully"
+    )
 
     public void verifyBookingCanBeRetrieved(){
 

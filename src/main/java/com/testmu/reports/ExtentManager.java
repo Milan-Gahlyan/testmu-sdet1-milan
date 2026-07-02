@@ -23,7 +23,17 @@ public final class ExtentManager {
 
             extent.attachReporter(spark);
 
-            extent.setSystemInfo("Framework","Selenium + TestNG");
+            extent.setSystemInfo(
+                    "Framework",
+                    "Java | Selenium | TestNG | Rest Assured");
+
+            extent.setSystemInfo(
+                    "AI Integration",
+                    "Gemini Failure Explainer (Upcoming)");
+
+            extent.setSystemInfo(
+                    "Execution",
+                    "UI + API");
 
             extent.setSystemInfo("Author","Milan Gahlyan");
 

@@ -3,12 +3,12 @@ package com.testmu.tests.ui;
 import com.testmu.base.BaseTest;
 import com.testmu.manager.PageManager;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class DashboardNavigationTest extends BaseTest {
 
-    @BeforeMethod
+    @BeforeClass
     public void login() {
 
         PageManager

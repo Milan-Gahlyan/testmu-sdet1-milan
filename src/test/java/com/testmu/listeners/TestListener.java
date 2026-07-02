@@ -18,13 +18,26 @@ public class TestListener implements ITestListener {
     @Override
     public void onTestStart(ITestResult result) {
 
+        String className =
+                result.getTestClass().getRealClass().getSimpleName();
+
+        String method =
+                result.getMethod().getMethodName();
+
+        String category =
+                className.contains("Api")
+                        ? "API"
+                        : "UI";
+
         ExtentTestManager.setTest(
 
                 ExtentManager
-
                         .getInstance()
+                        .createTest(method)
 
-                        .createTest(result.getMethod().getMethodName())
+                        .assignCategory(category)
+
+                        .assignAuthor("Milan Gahlyan")
 
         );
 
