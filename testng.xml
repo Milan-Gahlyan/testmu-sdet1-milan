@@ -10,6 +10,8 @@
 
             <package name="com.testmu.tests.ui"/>
 
+            <package name="com.testmu.tests.api"/>
+
         </packages>
 
     </test>
