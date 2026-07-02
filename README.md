@@ -61,7 +61,9 @@ Gemini analyzes the failure and provides:
 - Confidence
 
 The generated response is automatically attached to the Extent Report.
+
 (**<u>Important:</u>** I have added Screenshot of this from report in **<u>test-output/screenshots</u>** )
+
 ---
 
 # Tech Stack
